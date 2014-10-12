@@ -1,14 +1,25 @@
 package ee.ut.math.tvt.l6vi;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.util.Properties;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
-import javax.swing.*;
+
 
 
 public class IntroUI extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	
 	
 	public IntroUI(){
@@ -34,24 +45,39 @@ public class IntroUI extends JFrame{
 			versionProp.load(new FileInputStream("version.properties"));
 		} catch (FileNotFoundException e){
 			e.printStackTrace();
+			
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		
-		JLabel team_name = new JLabel("Team name: " 
-				+ applicationProp.getProperty("team_name"));
-		JLabel team_leader = new JLabel("Team leader: " 
-				+ applicationProp.getProperty("team_leader"));
-		JLabel leader_email = new JLabel("Leader e-mail: " 
-				+ applicationProp.getProperty("leader_email"));
-		JLabel team_members = new JLabel("Team members: " 
-				+ applicationProp.getProperty("team_members"));
-		
-		introduction.add(team_name);
-		introduction.add(team_leader);
-		introduction.add(leader_email);
-		introduction.add(team_members);
-		
+		String members[] = applicationProp.getProperty("team_members").split(",");
+		String intro = 
+				"<html>"
+						+	"<table>"
+						+	"<tr>"
+						+	"<td>Team name</td>"
+						+	"<td>"+applicationProp.getProperty("team_name")+"</td>"
+						+	"<td rowspan=5><img height=128 width=128 src='file:" + applicationProp.getProperty("logo") + "'/></td>"
+						+	"</tr>"
+						+	"<tr>"
+						+	"<td>Team leader</td>"
+						+	"<td>"+applicationProp.getProperty("team_leader")+"</td>"
+						+	"</tr>"
+						+	"<tr>"
+						+	"<td>Team leader email</td>"
+						+	"<td>"+applicationProp.getProperty("leader_email")+"</td>"
+						+	"</tr>"
+						+	"<tr>"
+						+	"<td>Members</td>"
+						+	"<td>"+members[0]+"<br>"+members[1]+"<br>"+members[2]+"</td>"
+						+	"</tr>"
+						+	"<tr>"
+						+	"<td>Version</td>"
+						+	"<td>"+versionProp.getProperty("build.number")+"</td>"
+						+	"</tr>"
+						+	"</table>"
+						+	"</html>";
+				
+		add(new JLabel(intro));
 		pack();
 		
 	}
