@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." name="POS" default="build">
+
+	<property name="build.dir"			value="${basedir}/build"/>
+	<property name="build.classes.dir"	value="${build.dir}/classes"/>
+	<property name="build.jar.dir"		value="${build.dir}/jar"/>
+	<property name="src.dir"			value="${basedir}/src"/>
+
+
+	<propertyfile file="application.properties">
+		<entry key="main.class"			default="ee.ut.math.tvt.l6vi.Intro" />
+		<entry key="jar.name"			default="l6vi.jar" />
+	</propertyfile>
+	<replaceregexp file="application.properties" match="^#.*?\n" replace="" byline="false" />
+	
+
+	<property file="application.properties"/>
+	<path id="run.classpath">
+		<pathelement location="${basedir}"/>
+		<pathelement location="${build.classes.dir}"/>
+	</path>
+
+
+	<target name="run" depends="build" description="Run the application">
+		<java classname="${main.class}" classpathref="run.classpath" fork="yes">
+		</java>
+	</target>
+	
+	
+
+	<target name="build" description="Compile the source">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.classes.dir}"/>
+
+		<!-- Compile -->
+		<javac
+			srcdir="${src.dir}"
+			destdir="${build.classes.dir}"
+			debug="true"
+			debuglevel="lines,vars,source"
+			encoding="utf-8"
+			compiler="modern"
+			target="1.7"
+			source="1.7"
+			includeantruntime="false">
+			<classpath refid="run.classpath"/>
+		</javac>
+	</target>
+	
+
+	<target name="clean" description="Clean up build system results">
+		<delete dir="${build.dir}"/>
+	</target>
+	
+
+	<target name="dist" depends="build" description="Compile the project .jar file">
+		<mkdir dir="${build.jar.dir}"/>
+
+		<!-- Update revision number and write build number to version.properties -->
+		<propertyfile file="version.properties">
+			<entry key="build.revision.number" type="int" value="1" operation="+" pattern="000" />
+			<entry key="build.minor.number" type="int" value="0" pattern="00" />
+			<entry key="build.major.number" type="int" value="0" pattern="0" />
+		</propertyfile>
+		<property file="version.properties"/>
+		<propertyfile file="version.properties">
+			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+		</propertyfile>
+		<replaceregexp file="application.properties" match="^#.*?\n" replace="" byline="false" />
+
+		<!-- Build the jar file -->
+		<jar destfile="${build.jar.dir}/${jar.name}" basedir="${build.classes.dir}">
+			<fileset dir="${basedir}">
+				<include name="*.properties" />
+			</fileset>
+			<manifest>
+				<attribute name="Main-Class" value="${main.class}" />
+			</manifest>
+		</jar>
+	</target>
+	
+
+	<target name="jrun" depends="dist" description="Run the compiled .jar file">
+		<java jar="${build.jar.dir}/${jar.name}" fork='true'/>
+	</target>
+</project>

@@ -56,9 +56,6 @@ public class IntroUI extends JFrame{
 		
 	}
 	
-	public static void main (String[] args){
-		IntroUI ui = new IntroUI();
-		ui.setVisible(true);
-	}
+
 
 }
