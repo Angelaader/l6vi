@@ -5,6 +5,7 @@
 	<property name="build.classes.dir"	value="${build.dir}/classes"/>
 	<property name="build.jar.dir"		value="${build.dir}/jar"/>
 	<property name="src.dir"			value="${basedir}/src"/>
+	<property name="lib.dir"			value="${basedir}/lib"/>
 
 
 	<propertyfile file="application.properties">
@@ -18,6 +19,9 @@
 	<path id="run.classpath">
 		<pathelement location="${basedir}"/>
 		<pathelement location="${build.classes.dir}"/>
+		<fileset dir="${lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
 	</path>
 
 
