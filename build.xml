@@ -1,64 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." name="POS" default="build">
 
-	<property name="build.dir"			value="${basedir}/build"/>
-	<property name="build.classes.dir"	value="${build.dir}/classes"/>
-	<property name="build.jar.dir"		value="${build.dir}/jar"/>
-	<property name="src.dir"			value="${basedir}/src"/>
-	<property name="lib.dir"			value="${basedir}/lib"/>
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="build.classes.dir" value="${build.dir}/classes" />
+	<property name="build.jar.dir" value="${build.dir}/jar" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="lib.dir" value="${basedir}/lib" />
 
 
 	<propertyfile file="application.properties">
-		<entry key="main_class"			default="ee.ut.math.tvt.l6vi.Intro" />
-		<entry key="jar_name"			default="l6vi.jar" />
+		<entry key="main_class" default="ee.ut.math.tvt.l6vi.Intro" />
+		<entry key="jar_name" default="l6vi.jar" />
 	</propertyfile>
 	<replaceregexp file="application.properties" match="^#.*?\n" replace="" byline="false" />
-	
 
-	<property file="application.properties"/>
+
+	<property file="application.properties" />
 	<path id="run.classpath">
-		<pathelement location="${basedir}"/>
-		<pathelement location="${build.classes.dir}"/>
+		<pathelement location="${basedir}" />
+		<pathelement location="${build.classes.dir}" />
 		<fileset dir="${lib.dir}">
-				<include name="*.jar"/>
-			</fileset>
+			<include name="*.jar" />
+		</fileset>
 	</path>
 
 
 	<target name="run" depends="build" description="Run the application">
-		<java classname="${main_class}" classpathref="run.classpath" fork="yes">
+		<java classname="ee.ut.math.tvt.l6vi.Intro" classpathref="run.classpath" fork="yes">
+			<jvmarg value="-Xdebug" />
+			<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=10000" />
 		</java>
 	</target>
 	
-	
 
 	<target name="build" description="Compile the source">
-		<mkdir dir="${build.dir}"/>
-		<mkdir dir="${build.classes.dir}"/>
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
 
 		<!-- Compile -->
-		<javac
-			srcdir="${src.dir}"
-			destdir="${build.classes.dir}"
-			debug="true"
-			debuglevel="lines,vars,source"
-			encoding="utf-8"
-			compiler="modern"
-			target="1.7"
-			source="1.7"
-			includeantruntime="false">
-			<classpath refid="run.classpath"/>
+		<javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" debuglevel="lines,vars,source" encoding="utf-8" compiler="modern" target="1.7" source="1.7" includeantruntime="false">
+			<classpath refid="run.classpath" />
 		</javac>
 	</target>
-	
+
 
 	<target name="clean" description="Clean up build system results">
-		<delete dir="${build.dir}"/>
+		<delete dir="${build.dir}" />
 	</target>
-	
+
 
 	<target name="dist" depends="build" description="Compile the project .jar file">
-		<mkdir dir="${build.jar.dir}"/>
+		<mkdir dir="${build.jar.dir}" />
 
 		<!-- Update revision number and write build number to version.properties -->
 		<propertyfile file="version.properties">
@@ -66,9 +58,9 @@
 			<entry key="build.minor.number" type="int" value="0" pattern="00" />
 			<entry key="build.major.number" type="int" value="0" pattern="0" />
 		</propertyfile>
-		<property file="version.properties"/>
+		<property file="version.properties" />
 		<propertyfile file="version.properties">
-			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}" />
 		</propertyfile>
 		<replaceregexp file="application.properties" match="^#.*?\n" replace="" byline="false" />
 
@@ -82,50 +74,50 @@
 			</manifest>
 		</jar>
 	</target>
-	
+
 	<!-- Adding two additional targets to script. git_commit - asks a commit comment and makes a commit to a local repository and 
 	pushes changes to the GitHub server.  -->
 	<target name="git_commit" description="Commiting changes to GitHub">
 		<input message="Commit message" addproperty="commit.message" />
 		<echo message="Commiting all made changes with this message ${commit.message}" />
 		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
-		<arg value="add" />
-		<arg value= "-A" />
+			<arg value="add" />
+			<arg value="-A" />
 		</exec>
 		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
-		<arg value="commit"/>
-		<arg value="-m"/>
-		<arg value="${commit.message}"/>
+			<arg value="commit" />
+			<arg value="-m" />
+			<arg value="${commit.message}" />
 		</exec>
 		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
-		<arg value="push"/>
+			<arg value="push" />
 		</exec>
 	</target>
-	
+
 	<!-- git_target - on execution asks for tag name and comment (synchronizes the data with GitHub) -->
 	<target name="git_tag" description="Tag homework">
-		<input message="Homework number:" addproperty="tag.number"/>
+		<input message="Homework number:" addproperty="tag.number" />
 		<condition property="tag.is.integer">
 			<matches pattern="^[1-9]+$" string="${tag.number}" />
 		</condition>
-		<fail message="Your input is not correct" unless="tag.is.integer"/>
+		<fail message="Your input is not correct" unless="tag.is.integer" />
 		<echo message="Tagging your homework ${tag.number}" />
 		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
-		<arg value="tag"/>
-		<arg value="-a"/>
-		<arg value="homework_${tag.number}"/>
-		<arg value="-m"/>
-		<arg value="Homework ${tag.number}"/>
+			<arg value="tag" />
+			<arg value="-a" />
+			<arg value="homework_${tag.number}" />
+			<arg value="-m" />
+			<arg value="Homework ${tag.number}" />
 		</exec>
 		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
-			<arg value="push"/>
-			<arg value="--tags"/>	
+			<arg value="push" />
+			<arg value="--tags" />
 		</exec>
 	</target>
-	
-	
+
+
 	<!-- Running jrun on the compiled .jar file -->
 	<target name="jrun" depends="dist" description="Run the compiled .jar file">
-		<java jar="${build.jar.dir}/${jar_name}" fork='true'/>
+		<java jar="${build.jar.dir}/${jar_name}" fork='true' />
 	</target>
 </project>
