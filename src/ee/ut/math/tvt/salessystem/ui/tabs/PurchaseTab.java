@@ -4,15 +4,19 @@ import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -107,7 +111,11 @@ public class PurchaseTab {
     JButton b = new JButton("Confirm");
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        submitPurchaseButtonClicked();
+        try {
+			submitPurchaseButtonClicked();
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
       }
     });
     b.setEnabled(false);
@@ -163,14 +171,16 @@ public class PurchaseTab {
   }
 
 
-  /** Event handler for the <code>submit purchase</code> event. */
-  protected void submitPurchaseButtonClicked() {
+  /** Event handler for the <code>submit purchase</code> event. 
+ * @throws ParseException */
+  protected void submitPurchaseButtonClicked() throws ParseException {
     log.info("Sale complete");
     try {
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
-          model.getCurrentPurchaseTableModel().getTableRows()
-      );
+          model.getCurrentPurchaseTableModel().getTableRows());
+      PayingWindow pw = new PayingWindow();
+      pw.draw();
       endSale();
       model.getCurrentPurchaseTableModel().clear();
     } catch (VerificationFailedException e1) {

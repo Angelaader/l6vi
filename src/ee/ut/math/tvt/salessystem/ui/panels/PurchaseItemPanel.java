@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -95,6 +96,7 @@ public class PurchaseItemPanel extends JPanel {
 
         // Initialize the textfields
         productSelectionJComboBoxField = new JComboBox<StockItem>(items);
+        productSelectionJComboBoxField.setSize(this.getPreferredSize().width, this.getPreferredSize().height);
         barCodeField = new JTextField();
         quantityField = new JTextField("1");
         nameField = new JTextField();
@@ -210,10 +212,20 @@ public class PurchaseItemPanel extends JPanel {
 				
 				if(quantity + qtyInUse <= stockItem.getQuantity()) {
 					model.getCurrentPurchaseTableModel().addItem(new SoldItem(stockItem, quantity));
+				} else {
+					JOptionPane.showMessageDialog(null,
+	            		    "Warehouse has less items.",
+	            		    "Error",
+	            		    JOptionPane.ERROR_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null,
+	            		    "Quantity must be 1 or bigger.",
+	            		    "Error",
+	            		    JOptionPane.ERROR_MESSAGE);
 				}
-            }
-        }
-    }
+			}
+		}
 
     /**
      * Sets whether or not this component is enabled.
