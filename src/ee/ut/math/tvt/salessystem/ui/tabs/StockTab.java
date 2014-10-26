@@ -1,12 +1,18 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -56,17 +62,60 @@ public class StockTab {
     panel.setLayout(gb);
 
     gc.anchor = GridBagConstraints.NORTHWEST;
-    gc.weightx = 0;
+	gc.weightx = 0;
 
-    addItem = new JButton("Add");
-    gc.gridwidth = GridBagConstraints.RELATIVE;
-    gc.weightx = 1.0;
-    panel.add(addItem, gc);
+	addItem = createAddButton();
+	gc.gridwidth = GridBagConstraints.RELATIVE;
+	gc.weightx = 1.0;
+	panel.add(addItem, gc);
 
-    panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    return panel;
-  }
+	panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	return panel;
+}
 
+// Creates the button "Add"
+private JButton createAddButton() {
+	JButton b = new JButton("Add");
+	b.addActionListener(new ActionListener() {
+		
+		public void actionPerformed(ActionEvent e) {
+			AddButtonClicked();
+			JFrame f1 = new JFrame();
+			JButton addNewProductButton = new JButton("Add new Product");
+			JButton cancelButton = new JButton("Cancel");
+			JLabel idLabel = new JLabel("Id:");
+			JLabel nameLabel = new JLabel("Name:");
+			final JLabel descriptionLabel = new JLabel("Description:");
+			JLabel priceLabel = new JLabel("Price:");
+			JLabel quantityLabel = new JLabel("Quantity:");
+			
+			f1.getContentPane().add(addNewProductButton);
+			f1.getContentPane().add(cancelButton);
+			f1.getContentPane().add(idLabel);
+			
+			
+			f1.setSize(300,300);
+			f1.setVisible(true);
+			GridBagLayout gb = new GridBagLayout();    
+
+			GridBagConstraints gc = new GridBagConstraints();
+			gc.fill = GridBagConstraints.HORIZONTAL;
+			gc.anchor = GridBagConstraints.NORTH;
+			gc.gridwidth = GridBagConstraints.REMAINDER;
+			gc.fill = GridBagConstraints.BOTH;  
+			f1.setLayout(gb);    
+			
+		
+		}
+
+		private void AddButtonClicked() {
+			// TODO Auto-generated method stub
+			
+		}
+	});
+
+	return b;
+}
 
   // table of the wareshouse stock
   private Component drawStockMainPane() {
