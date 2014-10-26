@@ -83,7 +83,48 @@
 		</jar>
 	</target>
 	
-
+	<!-- Adding two additional targets to script. git_commit - asks a commit comment and makes a commit to a local repository and 
+	pushes changes to the GitHub server.  -->
+	<target name="git_commit" description="Commiting changes to GitHub">
+		<input message="Commit message" addproperty="commit.message" />
+		<echo message="Commiting all made changes with this message ${commit.message}" />
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+		<arg value="add" />
+		<arg value= "-A" />
+		</exec>
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+		<arg value="commit"/>
+		<arg value="-m"/>
+		<arg value="${commit.message}"/>
+		</exec>
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+		<arg value="push"/>
+		</exec>
+	</target>
+	
+	<!-- git_target - on execution asks for tag name and comment (synchronizes the data with GitHub) -->
+	<target name="git_tag" description="Tag homework">
+		<input message="Homework number:" addproperty="tag.number"/>
+		<condition property="tag.is.integer">
+			<matches pattern="^[1-9]+$" string="${tag.number}" />
+		</condition>
+		<fail message="Your input is not correct" unless="tag.is.integer"/>
+		<echo message="Tagging your homework ${tag.number}" />
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+		<arg value="tag"/>
+		<arg value="-a"/>
+		<arg value="homework_${tag.number}"/>
+		<arg value="-m"/>
+		<arg value="Homework ${tag.number}"/>
+		</exec>
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+			<arg value="push"/>
+			<arg value="--tags"/>	
+		</exec>
+	</target>
+	
+	
+	<!-- Running jrun on the compiled .jar file -->
 	<target name="jrun" depends="dist" description="Run the compiled .jar file">
 		<java jar="${build.jar.dir}/${jar_name}" fork='true'/>
 	</target>

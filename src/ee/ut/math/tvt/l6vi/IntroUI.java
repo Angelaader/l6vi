@@ -46,6 +46,9 @@ public class IntroUI extends JFrame{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
+		
+		setUndecorated(true);
+		
 		String members[] = applicationProp.getProperty("team_members").split(",");
 		String intro = 
 				"<html>"
