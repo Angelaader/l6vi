@@ -21,7 +21,6 @@ public class Fields extends JTextField {
         super( cols );
     }
 
-    @Override
     protected Document createDefaultModel() {
         return new UpperCaseDocument();
     }
@@ -33,19 +32,13 @@ public class Fields extends JTextField {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		@Override
-        public void insertString( int offs, String str, AttributeSet a )
-                throws BadLocationException {
-
-            if ( str == null ) {
+        public void insertString( int off, String string, AttributeSet abr ) throws BadLocationException {
+            if ( string == null ) {
                 return;
             }
-
-            char[] chars = str.toCharArray();
             boolean ok = true;
-
+            char[] chars = string.toCharArray();
             for ( int i = 0; i < chars.length; i++ ) {
-
                 try {
                 	if (!( String.valueOf( chars[i] ).equals("."))){
                 		Integer.parseInt( String.valueOf( chars[i] ) );
@@ -54,14 +47,9 @@ public class Fields extends JTextField {
                     ok = false;
                     break;
                 }
-
-
             }
-
             if ( ok )
-                super.insertString( offs, new String( chars ), a );
-
+                super.insertString( off, new String( chars ), abr );
         }
     }
-
 }
