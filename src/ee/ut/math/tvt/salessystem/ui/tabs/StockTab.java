@@ -22,53 +22,40 @@ import javax.swing.table.JTableHeader;
 public class StockTab {
 
   private JButton addItem;
-
   private SalesSystemModel model;
-
   public StockTab(SalesSystemModel model) {
     this.model = model;
   }
-
   // warehouse stock tab - consists of a menu and a table
   public Component draw() {
     JPanel panel = new JPanel();
     panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
     GridBagLayout gb = new GridBagLayout();
     GridBagConstraints gc = new GridBagConstraints();
     panel.setLayout(gb);
-
     gc.fill = GridBagConstraints.HORIZONTAL;
     gc.anchor = GridBagConstraints.NORTH;
     gc.gridwidth = GridBagConstraints.REMAINDER;
     gc.weightx = 1.0d;
     gc.weighty = 0d;
-
     panel.add(drawStockMenuPane(), gc);
-
     gc.weighty = 1.0;
     gc.fill = GridBagConstraints.BOTH;
     panel.add(drawStockMainPane(), gc);
     return panel;
   }
-
   // warehouse menu
   private Component drawStockMenuPane() {
     JPanel panel = new JPanel();
-
     GridBagConstraints gc = new GridBagConstraints();
     GridBagLayout gb = new GridBagLayout();
-
     panel.setLayout(gb);
-
     gc.anchor = GridBagConstraints.NORTHWEST;
 	gc.weightx = 0;
-
 	addItem = createAddButton();
 	gc.gridwidth = GridBagConstraints.RELATIVE;
 	gc.weightx = 1.0;
 	panel.add(addItem, gc);
-
 	panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	return panel;
 }
@@ -76,8 +63,7 @@ public class StockTab {
 // Creates the button "Add"
 private JButton createAddButton() {
 	JButton b = new JButton("Add");
-	b.addActionListener(new ActionListener() {
-		
+	b.addActionListener(new ActionListener() {	
 		public void actionPerformed(ActionEvent e) {
 			AddButtonClicked();
 			JFrame f1 = new JFrame();
@@ -88,57 +74,42 @@ private JButton createAddButton() {
 			final JLabel descriptionLabel = new JLabel("Description:");
 			JLabel priceLabel = new JLabel("Price:");
 			JLabel quantityLabel = new JLabel("Quantity:");
-			
 			f1.getContentPane().add(addNewProductButton);
 			f1.getContentPane().add(cancelButton);
 			f1.getContentPane().add(idLabel);
-			
-			
 			f1.setSize(300,300);
 			f1.setVisible(true);
 			GridBagLayout gb = new GridBagLayout();    
-
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.fill = GridBagConstraints.HORIZONTAL;
 			gc.anchor = GridBagConstraints.NORTH;
 			gc.gridwidth = GridBagConstraints.REMAINDER;
 			gc.fill = GridBagConstraints.BOTH;  
 			f1.setLayout(gb);    
-			
-		
 		}
 
 		private void AddButtonClicked() {
 			// TODO Auto-generated method stub
-			
 		}
 	});
-
 	return b;
 }
 
   // table of the wareshouse stock
   private Component drawStockMainPane() {
     JPanel panel = new JPanel();
-
     JTable table = new JTable(model.getWarehouseTableModel());
-
     JTableHeader header = table.getTableHeader();
     header.setReorderingAllowed(false);
-
     JScrollPane scrollPane = new JScrollPane(table);
-
     GridBagConstraints gc = new GridBagConstraints();
     GridBagLayout gb = new GridBagLayout();
     gc.fill = GridBagConstraints.BOTH;
     gc.weightx = 1.0;
     gc.weighty = 1.0;
-
     panel.setLayout(gb);
     panel.add(scrollPane, gc);
-
     panel.setBorder(BorderFactory.createTitledBorder("Warehouse status"));
     return panel;
   }
-
 }
