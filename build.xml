@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." name="POS" default="build">
 
+	<property name="conf.dir"            value="${basedir}/conf" />
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="build.classes.dir" value="${build.dir}/classes" />
 	<property name="build.jar.dir" value="${build.dir}/jar" />
