@@ -17,6 +17,13 @@
 
 
 	<property file="application.properties" />
+	
+	<path id="compile.classpath">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
 	<path id="run.classpath">
 		<pathelement location="${basedir}" />
 		<pathelement location="${build.classes.dir}" />
@@ -67,9 +74,7 @@
 
 		<!-- Build the jar file -->
 		<jar destfile="${build.jar.dir}/${jar_name}" basedir="${build.classes.dir}">
-			<fileset dir="${basedir}">
-				<include name="*.properties" />
-			</fileset>
+			<zipgroupfileset includes="*.jar" dir="${basedir}/lib"/>
 			<manifest>
 				<attribute name="Main-Class" value="${main_class}" />
 			</manifest>
