@@ -80,6 +80,7 @@ public class PayingWindow {
 		c.gridy = 3;
 		JButton confirm = new JButton("Confirm buy");
 		confirm.addActionListener(new ActionListener() {
+		
 		public void actionPerformed(ActionEvent arg0) {
 			try {
 				if (Double.parseDouble(moneyBack.getText()) >= 0.0) {
@@ -98,7 +99,7 @@ public class PayingWindow {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					item.dispose();
-					log.info("Sale completed");
+					log.info("Sale canceled");
 				}
 			});
 			popUp.add(cancel, c);
