@@ -7,15 +7,15 @@
 	<property name="build.jar.dir" value="${build.dir}/jar" />
 	<property name="src.dir" value="${basedir}/src" />
 	<property name="lib.dir" value="${basedir}/lib" />
-	<property name="lib.dir" value="${basedir}/lib"/>
-	
+
+
 	<!-- database variables -->
 	<property name="data.dir"	value="${basedir}/data"/>
 	<property name="db.file"	value="${data.dir}/POSdb"/>
 	<property name="db.alias"	value="POS"/>
 	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
 	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
-	
+
 
 	<propertyfile file="application.properties">
 		<entry key="main_class" default="ee.ut.math.tvt.l6vi.Intro" />
@@ -24,13 +24,13 @@
 	<replaceregexp file="application.properties" match="^#.*?\n" replace="" byline="false" />
 
 	<property file="application.properties" />
-	
+
 	<path id="compile.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
 	</path>
-	
+
 	<path id="run.classpath">
 		<pathelement location="${build.classes.dir}"/>
 		<!-- configuration -->
@@ -42,14 +42,14 @@
 			<include name="*.jar"/>
 		</fileset>
 	</path>
-	
+
 	<target name="run" depends="build" description="Run the application">
 		<java classname="ee.ut.math.tvt.l6vi.Intro" classpathref="run.classpath" fork="yes">
 			<jvmarg value="-Xdebug" />
 			<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=10000" />
 		</java>
 	</target>
-	
+
 	<target name="build" description="Compile the source">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.classes.dir}" />
@@ -70,7 +70,7 @@
 		<mkdir dir="${build.jar.dir}" />
 
 
-	
+
 		<!-- Update revision number and write build number to version.properties -->
 		<propertyfile file="version.properties">
 			<entry key="build.revision.number" type="int" value="1" operation="+" pattern="000" />
@@ -141,23 +141,23 @@
 
 	<!-- Targets dbmanager and startdb -->
 	<target name="dbmanager" description="Start the HSQLDB manager">
-	<java
+		<java
 		classname="org.hsqldb.util.DatabaseManagerSwing"
 	    classpathref="run.classpath"
 	    fork="yes"
 	>
-	    <arg line="--user sa --url ${db.url}" />
-	</java>
+			<arg line="--user sa --url ${db.url}" />
+		</java>
 	</target>
 
 	<target name="startdb" description="Start the HSQLDB with the default params">
-	<java
+		<java
 	     classname="org.hsqldb.Server"
 	     classpathref="run.classpath"
 	     fork="yes"
 	 >
-		 <arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
-	</java>
+			<arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" />
+		</java>
 	</target>
-	
-	</project>
+
+</project>

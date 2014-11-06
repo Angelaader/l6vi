@@ -70,7 +70,7 @@ public class SalesSystemUI extends JFrame {
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
-        System.exit(0);
+    	closeApp();
       }
     });
   }
@@ -83,6 +83,11 @@ public class SalesSystemUI extends JFrame {
     tabbedPane.add("History", historyTab.draw());
 
     getContentPane().add(tabbedPane);
+  }
+  
+  private void closeApp() {
+	  domainController.endSession();
+	  System.exit(0);
   }
 
 }
