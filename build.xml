@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." name="POS" default="build">
 
-	<property name="conf.dir"            value="${basedir}/conf" />
+	<property name="conf.dir"  value="${basedir}/conf" />
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="build.classes.dir" value="${build.dir}/classes" />
 	<property name="build.jar.dir" value="${build.dir}/jar" />
 	<property name="src.dir" value="${basedir}/src" />
 	<property name="lib.dir" value="${basedir}/lib" />
-
+	<property name="lib.dir" value="${basedir}/lib"/>
 
 	<propertyfile file="application.properties">
 		<entry key="main_class" default="ee.ut.math.tvt.l6vi.Intro" />
@@ -15,24 +15,26 @@
 	</propertyfile>
 	<replaceregexp file="application.properties" match="^#.*?\n" replace="" byline="false" />
 
-
 	<property file="application.properties" />
 	
 	<path id="compile.classpath">
-		<fileset dir="lib">
+		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
 	</path>
 	
 	<path id="run.classpath">
-		<pathelement location="${basedir}" />
-		<pathelement location="${build.classes.dir}" />
+		<pathelement location="${build.classes.dir}"/>
+		<!-- configuration -->
+		<pathelement location="${conf.dir}"/>
 		<fileset dir="${lib.dir}">
-			<include name="*.jar" />
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${lib.hibernate.dir}">
+			<include name="*.jar"/>
 		</fileset>
 	</path>
-
-
+	
 	<target name="run" depends="build" description="Run the application">
 		<java classname="ee.ut.math.tvt.l6vi.Intro" classpathref="run.classpath" fork="yes">
 			<jvmarg value="-Xdebug" />
@@ -40,7 +42,6 @@
 		</java>
 	</target>
 	
-
 	<target name="build" description="Compile the source">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.classes.dir}" />
@@ -60,6 +61,37 @@
 	<target name="dist" depends="build" description="Compile the project .jar file">
 		<mkdir dir="${build.jar.dir}" />
 
+
+	<!-- database variables -->
+	<property name="data.dir"	value="${basedir}/data"/>
+	<property name="db.file"	value="${data.dir}/POSdb"/>
+	<property name="db.alias"	value="POS"/>
+	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
+	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
+		
+	<!-- Targets dbmanager and startdb -->
+	<target name="dbmanager" description="Start the HSQLDB manager">
+		<java
+			classname="org.hsqldb.util.DatabaseManagerSwing"
+		    classpathref="run.classpath"
+		    fork="yes"
+		>
+		    <arg line="--user sa --url ${db.url}" />
+		</java>
+	</target>
+
+	<target name="startdb" description="Start the HSQLDB with the default params">
+		 <java
+		     classname="org.hsqldb.Server"
+		     classpathref="run.classpath"
+		     fork="yes"
+		 >
+		     <arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
+		 </java>
+	</target>
+		
+		
+		
 		<!-- Update revision number and write build number to version.properties -->
 		<propertyfile file="version.properties">
 			<entry key="build.revision.number" type="int" value="1" operation="+" pattern="000" />
