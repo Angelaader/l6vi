@@ -22,7 +22,6 @@ import javax.swing.event.DocumentListener;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.AcceptedOrder;
-import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 public class PayingWindow {
@@ -32,9 +31,11 @@ public class PayingWindow {
 	double totalSum;
 	
 	SalesSystemModel model;
+	PurchaseTab pTab;
 	
-	public PayingWindow(SalesSystemModel model) {
-		this.model = model;		
+	public PayingWindow(SalesSystemModel model, PurchaseTab pTab) {
+		this.model = model;
+		this.pTab = pTab;
 	}
 
 	public Component draw() throws ParseException {
@@ -104,15 +105,21 @@ public class PayingWindow {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					if (Double.parseDouble(moneyBack.getText()) >= 0.0) {
-						item.dispose();
-						log.info("Sale completed");
 						
-						AcceptedOrder ao = new AcceptedOrder();
+						log.info("Purchase completed");
 						
+						// save order to history tab
+						AcceptedOrder ao = new AcceptedOrder();						
 						ao.setId(new Long(1));
 						ao.setDate(new Date());
 						ao.setTotal(new Float(totalSum));
 						model.getCurrentHistoryTableModel().addItem(ao);
+						
+						// actually finish sale process
+						pTab.endSale();
+						model.getCurrentPurchaseTableModel().clear();
+						
+						item.dispose();
 						
 					}
 				} catch (NumberFormatException e) {
@@ -127,7 +134,7 @@ public class PayingWindow {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				item.dispose();
-				log.info("Sale canceled");
+				log.info("Payment canceled");
 			}
 		});
 		popUp.add(cancel, c);

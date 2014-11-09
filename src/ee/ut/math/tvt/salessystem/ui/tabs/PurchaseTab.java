@@ -137,7 +137,7 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>new purchase</code> event. */
 	protected void newPurchaseButtonClicked() {
-		log.info("New sale process started");
+		log.info("New purchase started");
 		try {
 			domainController.startNewPurchase();
 			startNewSale();
@@ -148,7 +148,7 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>cancel purchase</code> event. */
 	protected void cancelPurchaseButtonClicked() {
-		log.info("Sale cancelled");
+		log.info("Purchase cancelled");
 		try {
 			domainController.cancelCurrentPurchase();
 			endSale();
@@ -164,7 +164,7 @@ public class PurchaseTab {
 	 * @throws ParseException
 	 */
 	protected void submitPurchaseButtonClicked() throws ParseException {
-		log.info("Sale complete");
+		log.info("New payment started");
 		try {
 			log.debug("Contents of the current basket:\n"
 					+ model.getCurrentPurchaseTableModel());
@@ -176,7 +176,7 @@ public class PurchaseTab {
 				sum += item.getSum();
 			}
 			
-			PayingWindow pw = new PayingWindow(model);
+			PayingWindow pw = new PayingWindow(model, this);
 			
 			pw.setCost(sum);
 			try {
@@ -184,8 +184,7 @@ public class PurchaseTab {
 			} catch (java.text.ParseException e) {
 				e.printStackTrace();
 			}
-			endSale();
-			model.getCurrentPurchaseTableModel().clear();
+			
 		} catch (VerificationFailedException e1) {
 			log.error(e1.getMessage());
 		}
@@ -207,7 +206,7 @@ public class PurchaseTab {
 	}
 
 	// switch UI to the state that allows to initiate new purchase
-	private void endSale() {
+	public void endSale() {
 		purchasePane.reset();
 
 		cancelPurchase.setEnabled(false);
