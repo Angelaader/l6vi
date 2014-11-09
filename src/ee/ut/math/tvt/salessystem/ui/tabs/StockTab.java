@@ -168,14 +168,16 @@ private JButton createAddButton() {
 			
 		}
 
-		private void AddButtonClicked() {
-			// TODO Auto-generated method stub
-		}
+		
 	});
 	return b;
 }
 
-  // table of the wareshouse stock
+  protected void AddButtonClicked() {
+	// TODO Auto-generated method stub
+	
+}
+// table of the wareshouse stock
   private Component drawStockMainPane() {
     JPanel panel = new JPanel();
     JTable table = new JTable(model.getWarehouseTableModel());
@@ -194,4 +196,7 @@ private JButton createAddButton() {
     panel.setBorder(BorderFactory.createTitledBorder("Warehouse status"));
     return panel;
   }
+  public void update() {
+		model.getWarehouseTableModel();
+	}
 }
