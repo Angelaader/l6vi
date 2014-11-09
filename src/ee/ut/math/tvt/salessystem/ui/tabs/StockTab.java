@@ -2,7 +2,6 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -11,7 +10,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,21 +21,17 @@ import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 
 
-
-public class StockTab {
-	private Long id;
-
-	private JTextField descriptionField;
-    private JTextField quantity;
-    private JTextField nameField;
-    private JTextField priceField;
-    private JTextField idField;
+  public class StockTab {
+  private JTextField descriptionField;
+  private JTextField idField;
   private JButton addItem;
   private JTextField descriptionLabel;
   private SalesSystemModel model;
-  public StockTab(SalesSystemModel model) {
+  
+public StockTab(SalesSystemModel model) {
     this.model = model;
   }
+  
   // warehouse stock tab - consists of a menu and a table
   public Component draw() {
     JPanel panel = new JPanel();
@@ -80,49 +74,44 @@ private JButton createAddButton() {
 			AddButtonClicked();
 			final JFrame f1 = new JFrame();
 			Container contentPane = f1.getContentPane();
-			JPanel c = new JPanel();
-			c.setLayout(new GridLayout(2, 7));
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(2, 7));
 			final GridBagConstraints gc = new GridBagConstraints();
-			
-			
-			
-		
+				
 			JButton cancel = new JButton("Cancel");
+			panel.add(cancel);
 			cancel.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					f1.dispose();
-
 				}
 			});
-			c.add(cancel);
-
-
-			c.add( new JLabel("Id,"));
+		
+			panel.add(new JLabel("Id:"));
 			final JTextField id = new JTextField();
-			c.add(id);
-			c.add(new JLabel("Name,"));
+			panel.add(id);
+			
+			panel.add(new JLabel("Name:"));
 			final JTextField nameField = new JTextField();
-			c.add(nameField);
-			c.add(new JLabel("Price,"));
+			panel.add(nameField);
+			
+			panel.add(new JLabel("Price:"));
 			final JTextField priceField = new JTextField();
-			c.add(priceField);
+			panel.add(priceField);
+			
+			panel.add(new JLabel("Description:"));
 			final JTextField description = new JTextField();
-			c.add(new JLabel("Description,"));
+			panel.add(description);
 				
-			JLabel quantityLabel = new JLabel("Quantity,");
+			JLabel quantityLabel = new JLabel("Quantity:");
 			final JTextField quantity = new JTextField();
-			c.add(quantity);
+			panel.add(quantity);
 			
-			
-			
-			
-			
-			//f1.add(descriptionField);
-
-	      
+			f1.add(descriptionField);
 	        
 			JButton addNewProductButton = new JButton("Add new Product");
-			c.add(addNewProductButton);
+			panel.add(addNewProductButton);
+			
+			
 	        
 			addNewProductButton.addActionListener(new ActionListener() {
 
@@ -146,11 +135,8 @@ private JButton createAddButton() {
 				}
 				
 			});
-	        
-	       
-	        
-	        
-	       f1.add(c);
+	        	        
+	        f1.add(panel);
 	        
 			f1.setSize(900,300);
 			f1.setVisible(true);
@@ -161,14 +147,7 @@ private JButton createAddButton() {
 			gc.gridwidth = GridBagConstraints.REMAINDER;
 			gc.fill = GridBagConstraints.BOTH;  
 			f1.setLayout(gb);    
-			
-			
-				
-		
-			
-		}
-
-		
+		}		
 	});
 	return b;
 }
