@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,7 +28,7 @@ public class StockTab {
 	private Long id;
 
 	private JTextField descriptionField;
-    private JTextField quantityField;
+    private JTextField quantity;
     private JTextField nameField;
     private JTextField priceField;
     private JTextField idField;
@@ -77,59 +78,79 @@ private JButton createAddButton() {
 	b.addActionListener(new ActionListener() {	
 		public void actionPerformed(ActionEvent e) {
 			AddButtonClicked();
-			JFrame f1 = new JFrame();
+			final JFrame f1 = new JFrame();
 			Container contentPane = f1.getContentPane();
+			JPanel c = new JPanel();
+			c.setLayout(new GridLayout(2, 7));
 			final GridBagConstraints gc = new GridBagConstraints();
 			
-			JButton addNewProductButton = new JButton("Add new Product");
 			
+			
+		
+			JButton cancel = new JButton("Cancel");
+			cancel.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					f1.dispose();
 
-			JButton cancelButton = new JButton("Cancel");
-			
-			JLabel idLabel = new JLabel("Id,");
-			JLabel nameLabel = new JLabel("Name,");
-			final JLabel descriptionLabel = new JLabel("Description,");
-			JLabel priceLabel = new JLabel("Price,");
+				}
+			});
+			c.add(cancel);
+
+
+			c.add( new JLabel("Id,"));
+			final JTextField id = new JTextField();
+			c.add(id);
+			c.add(new JLabel("Name,"));
+			final JTextField nameField = new JTextField();
+			c.add(nameField);
+			c.add(new JLabel("Price,"));
+			final JTextField priceField = new JTextField();
+			c.add(priceField);
+			final JTextField description = new JTextField();
+			c.add(new JLabel("Description,"));
+				
 			JLabel quantityLabel = new JLabel("Quantity,");
+			final JTextField quantity = new JTextField();
+			c.add(quantity);
 			
-			f1.getContentPane().add(cancelButton);
-			f1.getContentPane().add(addNewProductButton);
-			f1.getContentPane().add(idLabel);
-			f1.getContentPane().add(nameLabel);
-			f1.getContentPane().add(priceLabel);
-			f1.getContentPane().add(quantityLabel);
 			
-			idField= new JTextField(10);
 			
-			f1.add(idField );
-			//descriptionField = new JTextField(10);
-			//descriptionField.setEditable(true);
 			
 			
 			//f1.add(descriptionField);
 
-	        quantityField = new JTextField(10);
-	        f1.getContentPane().add(quantityField);
-	        
-	        nameField = new JTextField(10);
-	       
-	        
-	        	        
-	        nameField.setEditable(true);
-	        
-	        
-	       f1.add( nameField);
-	        priceField = new JTextField(10);
-	        priceField.setEditable(true);
 	      
 	        
-	        f1.add(priceField );
+			JButton addNewProductButton = new JButton("Add new Product");
+			c.add(addNewProductButton);
+	        
+			addNewProductButton.addActionListener(new ActionListener() {
 
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					final StockItem newProduct = new StockItem(Long.parseLong(idField.getText()),
+							nameField.getText(), 
+							descriptionLabel.getText(), 
+							Double.parseDouble(priceField.getText()),
+							Integer.parseInt(quantity.getText())
+							);
+					//.getDomainController().addStock(newProduct);
+					model.getWarehouseTableModel().addItem(newProduct);
+					f1.dispose();
+					confirmTransaction(true);
+				}
+
+				private void confirmTransaction(boolean b) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
 	        
 	       
 	        
 	        
-	       
+	       f1.add(c);
 	        
 			f1.setSize(900,300);
 			f1.setVisible(true);
@@ -141,28 +162,9 @@ private JButton createAddButton() {
 			gc.fill = GridBagConstraints.BOTH;  
 			f1.setLayout(gb);    
 			
-			addNewProductButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					final StockItem newProduct = new StockItem(Long.parseLong(idField.getText()),
-							nameField.getText(), 
-							descriptionLabel.getText(), 
-							Double.parseDouble(priceField.getText()),
-							Integer.parseInt(quantityField.getText())
-							);
-					//model.getDomainController().addStock(newProduct);
-					model.getWarehouseTableModel().addItem(newProduct);
-					
-					confirmTransaction(true);
-				}
-
-				private void confirmTransaction(boolean b) {
-					// TODO Auto-generated method stub
-					
-				}
+			
 				
-			});
+		
 			
 		}
 
