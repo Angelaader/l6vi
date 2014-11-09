@@ -134,9 +134,9 @@ private JButton createAddButton() {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					final StockItem newProduct = new StockItem(Long.parseLong(idField.getText()),
+					final StockItem newProduct = new StockItem(Long.parseLong(id.getText()),
 							nameField.getText(), 
-							descriptionLabel.getText(), 
+							description.getText(), 
 							Double.parseDouble(priceField.getText()),
 							Integer.parseInt(quantity.getText())
 							);
