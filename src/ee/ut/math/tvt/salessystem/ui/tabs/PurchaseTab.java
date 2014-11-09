@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -169,8 +170,20 @@ public class PurchaseTab {
 					+ model.getCurrentPurchaseTableModel());
 			domainController.submitCurrentPurchase(model
 					.getCurrentPurchaseTableModel().getTableRows());
-			PayingWindow pw = new PayingWindow();
-			pw.draw();
+			
+			double sum = 0;
+			for (SoldItem item : model.getCurrentPurchaseTableModel().getTableRows()) {
+				sum += item.getSum();
+			}
+			
+			PayingWindow pw = new PayingWindow(model);
+			
+			pw.setCost(sum);
+			try {
+				pw.draw().setVisible(true);
+			} catch (java.text.ParseException e) {
+				e.printStackTrace();
+			}
 			endSale();
 			model.getCurrentPurchaseTableModel().clear();
 		} catch (VerificationFailedException e1) {

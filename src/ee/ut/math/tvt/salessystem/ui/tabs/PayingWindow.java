@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -20,9 +21,21 @@ import javax.swing.event.DocumentListener;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.AcceptedOrder;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+
 public class PayingWindow {
+	
 	private static final Logger log = Logger.getLogger(PayingWindow.class);
+	
 	double totalSum;
+	
+	SalesSystemModel model;
+	
+	public PayingWindow(SalesSystemModel model) {
+		this.model = model;		
+	}
 
 	public Component draw() throws ParseException {
 		final JFrame item = new JFrame();
@@ -93,6 +106,14 @@ public class PayingWindow {
 					if (Double.parseDouble(moneyBack.getText()) >= 0.0) {
 						item.dispose();
 						log.info("Sale completed");
+						
+						AcceptedOrder ao = new AcceptedOrder();
+						
+						ao.setId(new Long(1));
+						ao.setDate(new Date());
+						ao.setTotal(new Float(totalSum));
+						model.getCurrentHistoryTableModel().addItem(ao);
+						
 					}
 				} catch (NumberFormatException e) {
 				}
