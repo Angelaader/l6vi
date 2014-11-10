@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
@@ -126,6 +128,7 @@ public class PayingWindow {
 				}
 			}
 		});
+		
 		popUp.add(confirm, c);
 		c.gridx = 1;
 		c.gridy = 3;
@@ -135,13 +138,25 @@ public class PayingWindow {
 			public void actionPerformed(ActionEvent arg0) {
 				item.dispose();
 				log.info("Payment canceled");
+				pTab.continueSale();
 			}
 		});
 		popUp.add(cancel, c);
+		
+		item.addWindowListener(new WindowAdapter() {
+		      @Override
+		      public void windowClosing(WindowEvent e) {
+		    	  item.dispose();
+		    	  log.info("Payment canceled");
+		    	  pTab.continueSale();
+		      }
+		    });
+		
 		return item;
 	}
 
 	public void setCost(double totalSum) {
 		this.totalSum = totalSum;
 	}
+	
 }

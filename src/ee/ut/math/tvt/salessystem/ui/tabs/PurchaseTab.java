@@ -181,6 +181,8 @@ public class PurchaseTab {
 			pw.setCost(sum);
 			try {
 				pw.draw().setVisible(true);
+				submitPurchase.setEnabled(false);
+				cancelPurchase.setEnabled(false);
 			} catch (java.text.ParseException e) {
 				e.printStackTrace();
 			}
@@ -213,6 +215,11 @@ public class PurchaseTab {
 		submitPurchase.setEnabled(false);
 		newPurchase.setEnabled(true);
 		purchasePane.setEnabled(false);
+	}
+	
+	public void continueSale() {
+		submitPurchase.setEnabled(true);
+		cancelPurchase.setEnabled(true);
 	}
 
 	/*
