@@ -25,11 +25,6 @@
 
 	<property file="application.properties" />
 
-	<path id="compile.classpath">
-		<fileset dir="${lib.dir}">
-			<include name="*.jar"/>
-		</fileset>
-	</path>
 
 	<path id="run.classpath">
 		<pathelement location="${build.classes.dir}"/>
