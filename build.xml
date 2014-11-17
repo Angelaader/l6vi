@@ -28,7 +28,12 @@
 
 	<property file="application.properties" />
 
-
+	<path id="libs">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		</path>
+	
 	<path id="run.classpath">
 		<pathelement location="${build.classes.dir}"/>
 		<!-- configuration -->
@@ -54,7 +59,7 @@
 		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
 		<mkdir dir="${build.test.dir}"/>
-		<mkdir dir="${test.dir}"/>
+		
 	</target>
 
 	<target name="run" depends="build" description="Run the application">

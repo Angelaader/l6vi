@@ -21,7 +21,7 @@ public interface SalesDomainController {
      */
     public List<StockItem> loadWarehouseState();
     
-    public List<AcceptedOrder> loadHistoryState();
+   // public List<AcceptedOrder> loadHistoryState();
 
     // business processes
     /**

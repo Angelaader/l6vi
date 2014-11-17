@@ -118,5 +118,8 @@ public class StockItem implements Cloneable, DisplayableItem {
             new StockItem(getId(), getName(), getDescription(), getPrice(), getQuantity());
         return item;
     }
-		
-}
+	public boolean equals(Object o){ 
+		StockItem nimi=(StockItem)o;
+		return nimi.getId()==getId() && nimi.getName()== getName() && nimi.getDescription()== getDescription() && nimi.getPrice()== getPrice() && nimi.getQuantity()==getQuantity();
+	}
+	}
