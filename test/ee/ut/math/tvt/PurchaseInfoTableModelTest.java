@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import java.util.NoSuchElementException;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
