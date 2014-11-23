@@ -1,9 +1,11 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
@@ -52,7 +54,19 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		}
 		fireTableDataChanged();
 	}
-
+	public void removeItems(List<SoldItem> soldItems) throws IllegalArgumentException  {
+		for(SoldItem item : soldItems) {
+			removeItem(item);
+		}
+	}
+	public void removeItem (final SoldItem soldItem){
+		StockItem stockItem = getItemById(soldItem.getId());
+		if(stockItem.getQuantity() < soldItem.getQuantity()) {
+			throw new IllegalArgumentException("invalid remove count: " + soldItem.getQuantity()
+					+ " | have: " + stockItem.getQuantity());
+		}
+		stockItem.setQuantity(stockItem.getQuantity() - soldItem.getQuantity());
+	}
 	@Override
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer();

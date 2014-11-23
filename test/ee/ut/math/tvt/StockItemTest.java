@@ -24,7 +24,7 @@ private StockItem stock;
 	
 	@Test
 	public void testGetColumn() {
-		assertEquals((Double)(stock.getColumn(3)), 66.6, 0.001);
+		assertEquals((Double)(stock.getColumn(2)), 66.6, 0.001);
 	}
 	
 	@Test(expected = RuntimeException.class)
